@@ -22,7 +22,7 @@ app.use(express.static("public"));
 
 //Backend routes
 //require("./routes/api")(app)
-//require("./routes/html")(app)
+app.use(require('./routes/html'))
 
 //Run server
 app.listen(PORT, () => {
