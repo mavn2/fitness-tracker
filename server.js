@@ -27,7 +27,7 @@ app.use(morgan('dev'));
 app.use(express.static("public"));
 
 //Backend routes
-//require("./routes/api")(app)
+app.use(require('./routes/api'))
 app.use(require('./routes/html'))
 
 //Run server
