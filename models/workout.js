@@ -4,14 +4,7 @@ const mongoose = require('mongoose');
 //Create schema for exercise data w/ mongoose
 const workoutSchema = new mongoose.Schema({
   day: {type: Date, default: Date.now},
-  exercises: [{
-    type: String,
-    name: String,
-    duration: Number,
-    weight: Number,
-    reps: Number,
-    sets: Number
-  }]
+  exercises: []
 });
 
 
