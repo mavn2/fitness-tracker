@@ -1,1 +1,2 @@
-const workout = require ('./Workout')
+//Import model and export as part of key/value pair
+module.exports = { Workout: require('./Workout') }
