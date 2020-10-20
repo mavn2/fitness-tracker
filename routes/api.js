@@ -1,12 +1,24 @@
 //Require express router class
 const router = require('express').Router();
+const db = require('../models')
 
 //Schema for added objects to database
-const exercise = require('../models/exercise')
+const exercise = require('../models')
 
 //Define required routes
 
-//Get last workout: get /api/workouts
+//Get workouts sorted by date: get /api/workouts
+router.get('/api/workouts', (req, res) => {
+  db.Workout.find({})
+    .sort({ day: 1})
+    .then(result => {
+      res.json(result)
+      console.log(result)
+    })
+    .catch(err => {
+      res.status(400).json(err)
+    });
+})
 //Add exercise: put api/workouts
 //Add workout: post api/workouts
 
