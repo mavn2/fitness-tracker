@@ -6,12 +6,6 @@ const morgan = require('morgan');
 //Create connection to database
 mongoose.connect('mongodb://localhost/workout', {useNewUrlParser: true})
 
-//Create db variable so testing methods can be used on connection
-const db = mongoose.connection;
-db.once('open', function() {
-  console.log('Connected!')
-})
-
 //Create an express app
 const app = express();
 
