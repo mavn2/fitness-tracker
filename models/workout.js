@@ -11,5 +11,5 @@ const workoutSchema = new mongoose.Schema({
 //Compile schema into model, attaching CRUD methods to schema
 const Workout = mongoose.model('Workout', workoutSchema);
 
-//Export model for use in router
+//Export model to pass through index
 module.exports = Workout;
