@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
-//Create connection to database
+//Create connection to database in local or deployed environments
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workout', 
   {
     useNewUrlParser: true,
