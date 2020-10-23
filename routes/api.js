@@ -14,13 +14,13 @@ router.get('/api/workouts', (req, res) => {
     .sort({ day: 1})
     //Return sorted workouts
     .then(result => {
-      res.json(result)
+      res.json(result);
     })
     //Throw error if request fails
     .catch(err => {
-      res.status(400).json(err)
+      res.status(400).json(err);
     });
-})
+});
 
 //Add exercise: put api/workouts
 router.put('/api/workouts/:id', (req, res) => {
@@ -33,22 +33,23 @@ router.put('/api/workouts/:id', (req, res) => {
     })
     //Throw error if request fails
     .catch(err => {
-      res.status(400).json(err)
+      res.status(400).json(err);
     });
-})
+});
+
 //Add workout: post api/workouts
 router.post('/api/workouts', ({ body }, res) => {
   //Create a workout object
-  db.Workout.create(body)
+  db.Workout.create(body);
   //Returned created workout
   .then((result) => {
-    res.json(result)
+    res.json(result);
   })
   //Throw error if request fails
   .catch(err => {
-    res.status(400).json(err)
+    res.status(400).json(err);
   });
-})
+});
 
 //Get workouts in specified range: get /api/workouts/range
 router.get('/api/workouts/range', (req, res) => {
@@ -58,13 +59,13 @@ router.get('/api/workouts/range', (req, res) => {
     .sort({ day: 1})
   //Return list of workouts
   .then(result => {
-    res.json(result)
+    res.json(result);
   })
   //Throw error if request fails
   .catch(err => {
-    res.status(400).json(err)
+    res.status(400).json(err);
   });
-})
+});
 
 //Export router w/ added methods for use by app
 module.exports = router;
