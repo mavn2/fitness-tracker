@@ -15,7 +15,6 @@ router.get('/api/workouts', (req, res) => {
     //Return sorted workouts, or throw error 
     .then(result => {
       res.json(result)
-      console.log(result)
     })
     .catch(err => {
       res.status(400).json(err)
@@ -23,7 +22,18 @@ router.get('/api/workouts', (req, res) => {
 })
 
 //Add exercise: put api/workouts
-
+router.put('/api/workouts/:id', (req, res) => {
+  console.log('id ' + req.params.id)
+  console.log('body ' + req.body)
+  db.Workout.findOneAndUpdate({ '_id': req.params.id }, { exercises: req.body }, { new: true})
+    .then(result => {
+      res.json(result);
+      console.log('result' + result);
+    })
+    .catch(err => {
+      res.status(400).json(err)
+    });
+})
 //Add workout: post api/workouts
 router.post('/api/workouts', ({ body }, res) => {
   db.Workout.create(body)
