@@ -26,7 +26,7 @@ router.get('/api/workouts', (req, res) => {
 router.put('/api/workouts/:id', (req, res) => {
   //Find workout to update based on id passed in url parameters, add exercise in request body
   //Setting new to true means the updated workout is returned
-  db.Workout.findOneAndUpdate({ '_id': req.params.id }, { exercises: req.body }, { new: true})
+  db.Workout.findOneAndUpdate({ '_id': req.params.id }, { $push: { exercises: req.body } }, { new: true})
     //Return workout with added exercise
     .then(result => {
       res.json(result);
@@ -40,7 +40,7 @@ router.put('/api/workouts/:id', (req, res) => {
 //Add workout: post api/workouts
 router.post('/api/workouts', ({ body }, res) => {
   //Create a workout object
-  db.Workout.create(body);
+  db.Workout.create(body)
   //Returned created workout
   .then((result) => {
     res.json(result);
