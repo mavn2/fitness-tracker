@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
-//Create connection to database in local or deployed environments
+//Create connection to database in deployed/local environments
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workout', 
   {
     useNewUrlParser: true,
@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workout',
 //Create an express app
 const app = express();
 
-//Ports for app to use in local/deployed environments
+//Ports for app to use in deployed/local environments
 const PORT = process.env.PORT || 8080;
 
 //Middleware to parse and log requests
