@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workout',
 const app = express();
 
 //Ports for app to use in local/deployed environments
-const PORT = 8080 || process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 //Middleware to parse and log requests
 app.use(express.urlencoded({ extended: true }));
