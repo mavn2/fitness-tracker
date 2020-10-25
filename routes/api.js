@@ -10,7 +10,7 @@ const exercise = require('../models')
 //Get workouts sorted by date
 router.get('/api/workouts', (req, res) => {
   db.Workout.find({})
-    //Sorts day in ascending order, meaning the most recent workout is last
+    //Sorts day in ascending order, ensuring the most recent workout is last
     .sort({ day: 1})
     //Return sorted workouts
     .then(result => {
@@ -53,13 +53,31 @@ router.post('/api/workouts', ({ body }, res) => {
 
 //Get workouts in specified range: get /api/workouts/range
 router.get('/api/workouts/range', (req, res) => {
-  //Fetch all workouts from database, as requested in stats.js
-  db.Workout.find({})
-  //Sort workouts by date
+  //Fetch all workouts from the last week
+  db.Workout.find({day: {$gte: new Date().getDate()-6}})
+  //Sort workouts by date, ensuring accuracy
     .sort({ day: 1})
-  //Return list of workouts
+  //Sort data to fit table rendering in stats.js
   .then(result => {
-    res.json(result);
+
+    //Array of seven objects, one for each day of the week. The exercises array in each allows the script in stats.js to parse and render 'empty' days.
+    let days = [
+      { exercises: [] },
+      { exercises: [] },
+      { exercises: [] },
+      { exercises: [] },
+      { exercises: [] },
+      { exercises: [] },
+      { exercises: [] }
+    ];
+    //Iterate through the week's workouts, adding the contents of each one's exercises array to the relevant array in days.
+    result.forEach(element => {
+      //The getDay method is used to match each workout to the correct element to the days array.
+      //Concat is used rather than push to produce an array of objects, rather than arrays
+      days[element.day.getDay()].exercises = days[element.day.getDay()].exercises.concat(element.exercises);
+    })
+    //Return days, which now holds the week's exercises correctly ordered for script.js
+    res.json(days)
   })
   //Throw error if request fails
   .catch(err => {
