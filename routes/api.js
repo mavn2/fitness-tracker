@@ -55,17 +55,17 @@ router.post('/api/workouts', ({ body }, res) => {
 router.get('/api/workouts/range', (req, res) => {
   //Set the range based on Date.getDay()'s's 0-6 output
   let range = new Date().getDay();
-  //Ensure results from Sunday can be represented-if there is not at least some range, the date used to define the search below is too recent to prevent any results
+  //Ensure results from Sunday can be represented-if there is not at least some range, the date used to define the search below is too recent to return results. 
   if(range === 0){ range = 1};
   //Fetch all workouts for the week so far
   db.Workout.find({day: {$gte: new Date().setDate(new Date().getDate()-range)}})
   //Sort workouts by date, ensuring accuracy
     .sort({ day: 1})
-  //Sort data to fit table rendering in stats.js
+  //Sort data to fit the table rendering in stats.js
   .then(result => {
     console.log(result)
 
-    //Array of seven objects, one for each day of the week. The exercises array in each allows the script in stats.js to parse and render 'empty' days.
+    //Array of seven objects, one for each day of the week. The exercises array in each allows the script in stats.js to parse 'empty' objects, where it would otherwise throw an error.
     let days = [
       { exercises: [] },
       { exercises: [] },
@@ -81,7 +81,7 @@ router.get('/api/workouts/range', (req, res) => {
       //Concat is used rather than push to produce an array of objects, rather than arrays
       days[element.day.getDay()].exercises = days[element.day.getDay()].exercises.concat(element.exercises);
     })
-    //Return days, which now holds the week's exercises correctly ordered for script.js
+    //Return days, which now holds the week's exercises ordered from 0-6, Sunday-Saturday, as presented on the chart in stats.js
     res.json(days)
   })
   //Throw error if request fails
