@@ -53,12 +53,17 @@ router.post('/api/workouts', ({ body }, res) => {
 
 //Get workouts in specified range: get /api/workouts/range
 router.get('/api/workouts/range', (req, res) => {
-  //Fetch all workouts from the last week
-  db.Workout.find({day: {$gte: new Date().getDate()-6}})
+  //Set the range based on Date.getDay()'s's 0-6 output
+  let range = new Date().getDay();
+  //Ensure results from Sunday can be represented-if there is not at least some range, the date used to define the search below is too recent to prevent any results
+  if(range === 0){ range = 1};
+  //Fetch all workouts for the week so far
+  db.Workout.find({day: {$gte: new Date().setDate(new Date().getDate()-range)}})
   //Sort workouts by date, ensuring accuracy
     .sort({ day: 1})
   //Sort data to fit table rendering in stats.js
   .then(result => {
+    console.log(result)
 
     //Array of seven objects, one for each day of the week. The exercises array in each allows the script in stats.js to parse and render 'empty' days.
     let days = [
